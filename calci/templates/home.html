@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+<title>Calculator</title>
+
+<style>
+
+body{
+    background:#000;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    height:100vh;
+    font-family:Arial;
+    gap:40px;
+}
+
+.calculator{
+    width:260px;
+}
+
+.display{
+    width:100%;
+    height:80px;
+    background:black;
+    color:white;
+    font-size:40px;
+    text-align:right;
+    border:none;
+    outline:none;
+}
+
+.buttons{
+    display:grid;
+    grid-template-columns:repeat(4,1fr);
+    gap:10px;
+}
+
+button{
+    height:55px;
+    border:none;
+    border-radius:50%;
+    font-size:20px;
+    cursor:pointer;
+}
+
+.number{
+    background:#333;
+    color:white;
+}
+
+.operator{
+    background:#ff9500;
+    color:white;
+}
+
+.gray{
+    background:#a5a5a5;
+}
+
+.zero{
+    grid-column:span 2;
+    border-radius:30px;
+}
+
+/* HISTORY STYLE */
+
+.history{
+    width:200px;
+    color:white;
+}
+
+.history h3{
+    text-align:center;
+}
+
+.history ul{
+    list-style:none;
+    padding:0;
+    max-height:300px;
+    overflow:auto;
+}
+
+.history li{
+    background:#222;
+    padding:8px;
+    margin-bottom:5px;
+    border-radius:5px;
+    font-size:14px;
+}
+
+</style>
+
+</head>
+
+<body>
+
+<div class="calculator">
+
+<input type="text" id="display" class="display" value="0">
+
+<div class="buttons">
+
+<button class="gray" onclick="clearDisplay()">AC</button>
+<button class="gray" onclick="append('%')">%</button>
+<button class="gray" onclick="append('/')">÷</button>
+<button class="operator" onclick="append('*')">×</button>
+
+<button class="number" onclick="append('7')">7</button>
+<button class="number" onclick="append('8')">8</button>
+<button class="number" onclick="append('9')">9</button>
+<button class="operator" onclick="append('-')">−</button>
+
+<button class="number" onclick="append('4')">4</button>
+<button class="number" onclick="append('5')">5</button>
+<button class="number" onclick="append('6')">6</button>
+<button class="operator" onclick="append('+')">+</button>
+
+<button class="number" onclick="append('1')">1</button>
+<button class="number" onclick="append('2')">2</button>
+<button class="number" onclick="append('3')">3</button>
+<button class="operator" onclick="calculate()">=</button>
+
+<button class="number zero" onclick="append('0')">0</button>
+<button class="number" onclick="append('.')">.</button>
+
+</div>
+
+</div>
+
+<!-- HISTORY SECTION -->
+
+<div class="history">
+<h3>History</h3>
+<ul id="historyList"></ul>
+</div>
+
+<script>
+
+let display=document.getElementById("display");
+
+function append(value){
+    if(display.value=="0"){
+        display.value=value;
+    }else{
+        display.value+=value;
+    }
+}
+
+function clearDisplay(){
+    display.value="0";
+}
+
+function calculate(){
+
+    try{
+
+        let expression = display.value;
+        let result = eval(expression);
+
+        display.value = result;
+
+        let historyItem = document.createElement("li");
+        historyItem.textContent = expression + " = " + result;
+
+        document.getElementById("historyList").prepend(historyItem);
+
+    }
+    catch{
+        display.value="Error";
+    }
+
+}
+
+</script>
+
+</body>
+</html>
